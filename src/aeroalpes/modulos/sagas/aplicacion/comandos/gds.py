@@ -1,5 +1,5 @@
 
-class ConfirmarReserva():
+class ConfirmarOrden():
     ...
 
 class RevertirConfirmacion():
