@@ -1,7 +1,7 @@
 from aeroalpes.seedwork.aplicacion.comandos import Comando, ComandoHandler
 
-class PagarReserva(Comando):
+class PagarOrden(Comando):
     ...
 
-class PagarReservaHandler(ComandoHandler):
+class PagarOrdenHandler(ComandoHandler):
     ...
