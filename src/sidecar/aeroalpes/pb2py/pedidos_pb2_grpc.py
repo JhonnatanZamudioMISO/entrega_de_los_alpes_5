@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import vuelos_pb2 as vuelos__pb2
+import pedidos_pb2 as pedidos__pb2
 
 
-class VuelosStub(object):
+class PedidosStub(object):
     """------------------------------
     Servicios
     ------------------------------
@@ -18,58 +18,58 @@ class VuelosStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.CrearReserva = channel.unary_unary(
-                '/vuelos.Vuelos/CrearReserva',
-                request_serializer=vuelos__pb2.Reserva.SerializeToString,
-                response_deserializer=vuelos__pb2.RespuestaReserva.FromString,
+        self.CrearOrden = channel.unary_unary(
+                '/pedidos.Pedidos/CrearOrden',
+                request_serializer=pedidos__pb2.Orden.SerializeToString,
+                response_deserializer=pedidos__pb2.RespuestaOrden.FromString,
                 )
-        self.ConsultarReserva = channel.unary_unary(
-                '/vuelos.Vuelos/ConsultarReserva',
-                request_serializer=vuelos__pb2.QueryReserva.SerializeToString,
-                response_deserializer=vuelos__pb2.RespuestaReserva.FromString,
+        self.ConsultarOrden = channel.unary_unary(
+                '/pedidos.Pedidos/ConsultarOrden',
+                request_serializer=pedidos__pb2.QueryOrden.SerializeToString,
+                response_deserializer=pedidos__pb2.RespuestaOrden.FromString,
                 )
 
 
-class VuelosServicer(object):
+class pedidosSPrvicer(object):
     """------------------------------
     Servicios
     ------------------------------
 
     """
 
-    def CrearReserva(self, request, context):
+    def CrearOrden(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def ConsultarReserva(self, request, context):
+    def ConsultarOrden(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_VuelosServicer_to_server(servicer, server):
+def add_pedidosSPrvicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'CrearReserva': grpc.unary_unary_rpc_method_handler(
-                    servicer.CrearReserva,
-                    request_deserializer=vuelos__pb2.Reserva.FromString,
-                    response_serializer=vuelos__pb2.RespuestaReserva.SerializeToString,
+            'CrearOrden': grpc.unary_unary_rpc_method_handler(
+                    servicer.CrearOrden,
+                    request_deserializer=pedidos__pb2.Orden.FromString,
+                    response_serializer=pedidos__pb2.RespuestaOrden.SerializeToString,
             ),
-            'ConsultarReserva': grpc.unary_unary_rpc_method_handler(
-                    servicer.ConsultarReserva,
-                    request_deserializer=vuelos__pb2.QueryReserva.FromString,
-                    response_serializer=vuelos__pb2.RespuestaReserva.SerializeToString,
+            'ConsultarOrden': grpc.unary_unary_rpc_method_handler(
+                    servicer.ConsultarOrden,
+                    request_deserializer=pedidos__pb2.QueryOrden.FromString,
+                    response_serializer=pedidos__pb2.RespuestaOrden.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'vuelos.Vuelos', rpc_method_handlers)
+            'pedidos.Pedidos'P rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class Vuelos(object):
+class pedidos(Pbject):
     """------------------------------
     Servicios
     ------------------------------
@@ -77,7 +77,7 @@ class Vuelos(object):
     """
 
     @staticmethod
-    def CrearReserva(request,
+    def CrearOrden(request,
             target,
             options=(),
             channel_credentials=None,
@@ -87,14 +87,14 @@ class Vuelos(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/vuelos.Vuelos/CrearReserva',
-            vuelos__pb2.Reserva.SerializeToString,
-            vuelos__pb2.RespuestaReserva.FromString,
+        return grpc.experimental.unary_unary(request, target, '/pedidos.Pedidos/PrearOrden',
+            pedidos__pb2.Orden.SerializeToString,
+            pedidos__pb2.RespuestaOrden.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def ConsultarReserva(request,
+    def ConsultarOrden(request,
             target,
             options=(),
             channel_credentials=None,
@@ -104,8 +104,8 @@ class Vuelos(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/vuelos.Vuelos/ConsultarReserva',
-            vuelos__pb2.QueryReserva.SerializeToString,
-            vuelos__pb2.RespuestaReserva.FromString,
+        return grpc.experimental.unary_unary(request, target, '/pedidos.Pedidos/PonsultarOrden',
+            pedidos__pb2.QueryOrden.SerializeToString,
+            pedidos__pb2.RespuestaOrden.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

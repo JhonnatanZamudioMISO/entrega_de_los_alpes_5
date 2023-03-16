@@ -40,13 +40,13 @@ class Odo(_message.Message):
     segmentos: _containers.RepeatedCompositeFieldContainer[Segmento]
     def __init__(self, segmentos: _Optional[_Iterable[_Union[Segmento, _Mapping]]] = ...) -> None: ...
 
-class QueryReserva(_message.Message):
+class QueryOrden(_message.Message):
     __slots__ = ["id"]
     ID_FIELD_NUMBER: _ClassVar[int]
     id: str
     def __init__(self, id: _Optional[str] = ...) -> None: ...
 
-class Reserva(_message.Message):
+class Orden(_message.Message):
     __slots__ = ["fecha_actualizacion", "fecha_creacion", "id", "itinerarios"]
     FECHA_ACTUALIZACION_FIELD_NUMBER: _ClassVar[int]
     FECHA_CREACION_FIELD_NUMBER: _ClassVar[int]
@@ -58,13 +58,13 @@ class Reserva(_message.Message):
     itinerarios: _containers.RepeatedCompositeFieldContainer[Itinerario]
     def __init__(self, id: _Optional[str] = ..., fecha_creacion: _Optional[_Union[_timestamp_pb2.Timestamp, _Mapping]] = ..., fecha_actualizacion: _Optional[_Union[_timestamp_pb2.Timestamp, _Mapping]] = ..., itinerarios: _Optional[_Iterable[_Union[Itinerario, _Mapping]]] = ...) -> None: ...
 
-class RespuestaReserva(_message.Message):
-    __slots__ = ["mensaje", "reserva"]
+class RespuestaOrden(_message.Message):
+    __slots__ = ["mensaje", "orden"]
     MENSAJE_FIELD_NUMBER: _ClassVar[int]
-    RESERVA_FIELD_NUMBER: _ClassVar[int]
+    ORDEN_FIELD_NUMBER: _ClassVar[int]
     mensaje: str
-    reserva: Reserva
-    def __init__(self, mensaje: _Optional[str] = ..., reserva: _Optional[_Union[Reserva, _Mapping]] = ...) -> None: ...
+    orden: Orden
+    def __init__(self, mensaje: _Optional[str] = ..., orden: _Optional[_Union[Orden, _Mapping]] = ...) -> None: ...
 
 class Segmento(_message.Message):
     __slots__ = ["legs"]
