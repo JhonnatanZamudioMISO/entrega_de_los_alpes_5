@@ -1,10 +1,3 @@
-"""DTOs para la capa de infrastructura del dominio de vuelos
-
-En este archivo usted encontrará los DTOs (modelos anémicos) de
-la infraestructura del dominio de vuelos
-
-"""
-
 from aeroalpes.config.db import db
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import Column, ForeignKey, Integer, Table
@@ -13,11 +6,11 @@ import uuid
 
 Base = db.declarative_base()
 
-# Tabla intermedia para tener la relación de muchos a muchos entre la tabla reservas e itinerarios
-reservas_itinerarios = db.Table(
-    "reservas_itinerarios",
+# Tabla intermedia para tener la relación de muchos a muchos entre la tabla ordenes e itinerarios
+ordenes_itinerarios = db.Table(
+    "ordenes_itinerarios",
     db.Model.metadata,
-    db.Column("reserva_id", db.String(40), db.ForeignKey("reservas.id")),
+    db.Column("orden_id", db.String(40), db.ForeignKey("ordenes.id")),
     db.Column("odo_orden", db.Integer),
     db.Column("segmento_orden", db.Integer),
     db.Column("leg_orden", db.Integer),
@@ -42,15 +35,15 @@ class Itinerario(db.Model):
     destino_codigo= db.Column(db.String(10), nullable=False, primary_key=True)
 
 
-class Reserva(db.Model):
-    __tablename__ = "reservas"
+class Orden(db.Model):
+    __tablename__ = "ordenes"
     id = db.Column(db.String(40), primary_key=True)
     fecha_creacion = db.Column(db.DateTime, nullable=False)
     fecha_actualizacion = db.Column(db.DateTime, nullable=False)
-    itinerarios = db.relationship('Itinerario', secondary=reservas_itinerarios, backref='reservas')
+    itinerarios = db.relationship('Itinerario', secondary=ordenes_itinerarios, backref='ordenes')
 
-class EventosReserva(db.Model):
-    __tablename__ = "eventos_reserva"
+class EventosOrden(db.Model):
+    __tablename__ = "eventos_Orden"
     id = db.Column(db.String(40), primary_key=True)
     id_entidad = db.Column(db.String(40), nullable=False)
     fecha_evento = db.Column(db.DateTime, nullable=False)
@@ -60,7 +53,7 @@ class EventosReserva(db.Model):
     nombre_servicio = db.Column(db.String(40), nullable=False)
     contenido = db.Column(db.Text, nullable=False)
 
-class ReservaAnalitica(db.Model):
-    __tablename__ = "analitica_reservas"
+class OrdenAnalitica(db.Model):
+    __tablename__ = "analitica_ordenes"
     fecha_creacion = db.Column(db.Date, primary_key=True)
     total = db.Column(db.Integer, primary_key=True, nullable=False)

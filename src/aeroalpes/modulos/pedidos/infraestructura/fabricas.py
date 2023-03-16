@@ -1,36 +1,29 @@
-""" Fábricas para la creación de objetos en la capa de infrastructura del dominio de vuelos
-
-En este archivo usted encontrará las diferentes fábricas para crear
-objetos complejos en la capa de infraestructura del dominio de vuelos
-
-"""
-
 from dataclasses import dataclass, field
 from aeroalpes.seedwork.dominio.fabricas import Fabrica
 from aeroalpes.seedwork.dominio.repositorios import Repositorio
 from aeroalpes.seedwork.infraestructura.vistas import Vista
-from aeroalpes.modulos.vuelos.infraestructura.vistas import VistaReserva
-from aeroalpes.modulos.vuelos.dominio.entidades import Reserva
-from aeroalpes.modulos.vuelos.dominio.repositorios import RepositorioProveedores, RepositorioReservas, RepositorioEventosReservas
-from .repositorios import RepositorioReservasSQLAlchemy, RepositorioProveedoresSQLAlchemy, RepositorioEventosReservaSQLAlchemy
+from aeroalpes.modulos.pedidos.infraestructura.vistas import VistaOrden
+from aeroalpes.modulos.pedidos.dominio.entidades import Orden
+from aeroalpes.modulos.pedidos.dominio.repositorios import RepositorioProveedores, RepositorioOrdenes, RepositorioEventosOrdenes
+from .repositorios import RepositorioOrdenesSQLAlchemy, RepositorioProveedoresSQLAlchemy, RepositorioEventosOrdenesQLAlchemy
 from .excepciones import ExcepcionFabrica
 
 @dataclass
 class FabricaRepositorio(Fabrica):
     def crear_objeto(self, obj: type, mapeador: any = None) -> Repositorio:
-        if obj == RepositorioReservas:
-            return RepositorioReservasSQLAlchemy()
+        if obj == RepositorioOrdenes:
+            return RepositorioOrdenesSQLAlchemy()
         elif obj == RepositorioProveedores:
             return RepositorioProveedoresSQLAlchemy()
-        elif obj == RepositorioEventosReservas:
-            return RepositorioEventosReservaSQLAlchemy()
+        elif obj == RepositorioEventosOrdenes:
+            return RepositorioEventosOrdenesQLAlchemy()
         else:
             raise ExcepcionFabrica(f'No existe fábrica para el objeto {obj}')
 
 @dataclass
 class FabricaVista(Fabrica):
     def crear_objeto(self, obj: type, mapeador: any = None) -> Vista:
-        if obj == Reserva:
-            return VistaReserva()
+        if obj == Orden:
+            return VistaOrden()
         else:
             raise ExcepcionFabrica(f'No existe fábrica para el objeto {obj}')

@@ -6,11 +6,11 @@ import logging
 import traceback
 import datetime
 
-from aeroalpes.modulos.vuelos.infraestructura.schema.v1.eventos import EventoReservaCreada
-from aeroalpes.modulos.vuelos.infraestructura.schema.v1.comandos import ComandoCrearReserva
+from aeroalpes.modulos.pedidos.infraestructura.schema.v1.eventos import EventoOrdenCreada
+from aeroalpes.modulos.pedidos.infraestructura.schema.v1.comandos import ComandoCrearOrden
 
 
-from aeroalpes.modulos.vuelos.infraestructura.proyecciones import ProyeccionReservasLista, ProyeccionReservasTotales
+from aeroalpes.modulos.pedidos.infraestructura.proyecciones import ProyeccionOrdenesLista, ProyeccionOrdenesTotales
 from aeroalpes.seedwork.infraestructura.proyecciones import ejecutar_proyeccion
 from aeroalpes.seedwork.infraestructura import utils
 
@@ -18,19 +18,15 @@ def suscribirse_a_eventos(app=None):
     cliente = None
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('eventos-reserva', consumer_type=_pulsar.ConsumerType.Shared,subscription_name='aeroalpes-sub-eventos', schema=AvroSchema(EventoReservaCreada))
+        consumidor = cliente.subscribe('eventos-orden', consumer_type=_pulsar.ConsumerType.Shared,subscription_name='aeroalpes-sub-eventos', schema=AvroSchema(EventoOrdenCreada))
 
         while True:
             mensaje = consumidor.receive()
             datos = mensaje.value().data
             print(f'Evento recibido: {datos}')
-
-            # TODO Identificar el tipo de CRUD del evento: Creacion, actualización o eliminación.
-            ejecutar_proyeccion(ProyeccionReservasTotales(datos.fecha_creacion, ProyeccionReservasTotales.ADD), app=app)
-            ejecutar_proyeccion(ProyeccionReservasLista(datos.id_reserva, datos.id_cliente, datos.estado, datos.fecha_creacion, datos.fecha_creacion), app=app)
-            
+            ejecutar_proyeccion(ProyeccionOrdenesTotales(datos.fecha_creacion, ProyeccionOrdenesTotales.ADD), app=app)
+            ejecutar_proyeccion(ProyeccionOrdenesLista(datos.id_orden, datos.id_cliente, datos.estado, datos.fecha_creacion, datos.fecha_creacion), app=app)
             consumidor.acknowledge(mensaje)     
-
         cliente.close()
     except:
         logging.error('ERROR: Suscribiendose al tópico de eventos!')
@@ -42,7 +38,7 @@ def suscribirse_a_comandos(app=None):
     cliente = None
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('comandos-reserva', consumer_type=_pulsar.ConsumerType.Shared, subscription_name='aeroalpes-sub-comandos', schema=AvroSchema(ComandoCrearReserva))
+        consumidor = cliente.subscribe('comandos-orden', consumer_type=_pulsar.ConsumerType.Shared, subscription_name='aeroalpes-sub-comandos', schema=AvroSchema(ComandoCrearOrden))
 
         while True:
             mensaje = consumidor.receive()
