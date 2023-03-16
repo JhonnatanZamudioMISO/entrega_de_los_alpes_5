@@ -7,34 +7,28 @@ from flask_swagger import swagger
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 def registrar_handlers():
-    import aeroalpes.modulos.vuelos.aplicacion
+    import aeroalpes.modulos.pedidos.aplicacion
 
 def importar_modelos_alchemy():
     import aeroalpes.modulos.hoteles.infraestructura.dto
     import aeroalpes.modulos.vehiculos.infraestructura.dto
-    import aeroalpes.modulos.vuelos.infraestructura.dto
+    import aeroalpes.modulos.pedidos.infraestructura.dto
 
 def comenzar_consumidor(app):
-    """
-    Este es un código de ejemplo. Aunque esto sea funcional puede ser un poco peligroso tener 
-    threads corriendo por si solos. Mi sugerencia es en estos casos usar un verdadero manejador
-    de procesos y threads como Celery.
-    """
-
     import threading
     import aeroalpes.modulos.hoteles.infraestructura.consumidores as hoteles
     import aeroalpes.modulos.vehiculos.infraestructura.consumidores as vehiculos
-    import aeroalpes.modulos.vuelos.infraestructura.consumidores as vuelos
+    import aeroalpes.modulos.pedidos.infraestructura.consumidores as pedidos
 
     # Suscripción a eventos
     threading.Thread(target=hoteles.suscribirse_a_eventos).start()
     threading.Thread(target=vehiculos.suscribirse_a_eventos).start()
-    threading.Thread(target=vuelos.suscribirse_a_eventos, args=[app]).start()
+    threading.Thread(target=pedidos.suscribirse_a_eventos, args=[app]).start()
 
     # Suscripción a comandos
     threading.Thread(target=hoteles.suscribirse_a_comandos).start()
     threading.Thread(target=vehiculos.suscribirse_a_comandos).start()
-    threading.Thread(target=vuelos.suscribirse_a_comandos, args=[app]).start()
+    threading.Thread(target=pedidos.suscribirse_a_comandos, args=[app]).start()
 
 def create_app(configuracion={}):
     # Init la aplicacion de Flask
@@ -62,18 +56,18 @@ def create_app(configuracion={}):
         if not app.config.get('TESTING'):
             comenzar_consumidor(app)
         
-        from aeroalpes.modulos.sagas.aplicacion.coordinadores.saga_reservas import CoordinadorReservas
-        CoordinadorReservas()
+        from aeroalpes.modulos.sagas.aplicacion.coordinadores.saga_ordenes import CoordinadorOrdenes
+        CoordinadorOrdenes()
 
      # Importa Blueprints
     from . import hoteles
     from . import vehiculos
-    from . import vuelos
+    from . import pedidos
 
     # Registro de Blueprints
     app.register_blueprint(hoteles.bp)
     app.register_blueprint(vehiculos.bp)
-    app.register_blueprint(vuelos.bp)
+    app.register_blueprint(pedidos.bp)
 
     @app.route("/spec")
     def spec():
