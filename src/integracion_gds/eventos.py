@@ -2,16 +2,16 @@ from pulsar.schema import *
 from .utils import time_millis
 import uuid
 
-class ReservaConfirmada(Record):
+class OrdenConfirmada(Record):
     id = String(),
     id_correlacion = String(),
-    reserva_id = String()
+    orden_id = String()
     fecha_confirmacion = Long()
  
 class ConfirmacionRevertida(Record):
     id = String()
     id_correlacion = String()
-    reserva_id = String()
+    orden_id = String()
     fecha_actualizacion = Long()
 
 class EventoConfirmacionGDS(Record):
@@ -23,7 +23,7 @@ class EventoConfirmacionGDS(Record):
     datacontenttype = String()
     service_name = String(default="pagos.aeroalpes")
     confirmacion_revertida = ConfirmacionRevertida
-    reserva_confirmada = ReservaConfirmada
+    reserva_confirmada = OrdenConfirmada
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

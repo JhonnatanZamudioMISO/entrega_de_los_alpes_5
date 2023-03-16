@@ -2,7 +2,7 @@ from pulsar.schema import *
 from .utils import time_millis
 import uuid
 
-class ConfirmarReservaPayload(Record):
+class ConfirmarOrdenPayload(Record):
     id_correlacion = String(),
     reserva_id = String(),
  
@@ -11,15 +11,15 @@ class RevertirConfirmacionPayload(Record):
     id_correlacion = String()
     reserva_id = String()
 
-class ComandoConfirmarReserva(Record):
+class ComandoConfirmarOrden(Record):
     id = String(default=str(uuid.uuid4()))
     time = Long()
     ingestion = Long(default=time_millis())
     specversion = String(default="v1")
-    type = String(default="ConfirmarReserva")
+    type = String(default="ConfirmarOrden")
     datacontenttype = String()
     service_name = String(default="gds.aeroalpes")
-    data = ConfirmarReservaPayload
+    data = ConfirmarOrdenPayload
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
