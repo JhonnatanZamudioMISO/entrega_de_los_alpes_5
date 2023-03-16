@@ -1,5 +1,5 @@
 
-class PagarReserva():
+class PagarOrden():
     ...
 
 class RevertirPago():
