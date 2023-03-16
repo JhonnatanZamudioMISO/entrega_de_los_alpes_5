@@ -7,8 +7,8 @@ class EventoPago(EventoDominio):
     ...
 
 @dataclass
-class ReservaPagada(EventoPago):
-    id_reserva: uuid.UUID = None
+class OrdenPagada(EventoPago):
+    id_orden: uuid.UUID = None
     id_correlacion: str = None
     monto: float = None
     monto_vat: float = None
@@ -16,7 +16,7 @@ class ReservaPagada(EventoPago):
 
 @dataclass
 class PagoFallido(EventoPago):
-    id_reserva: uuid.UUID = None
+    id_orden: uuid.UUID = None
     id_correlacion: str = None
     monto: float = None
     monto_vat: float = None
@@ -24,7 +24,7 @@ class PagoFallido(EventoPago):
 
 @dataclass
 class PagoRevertido(EventoPago):
-    id_reserva: uuid.UUID = None
+    id_orden: uuid.UUID = None
     id_correlacion: str = None
     monto: float = None
     monto_vat: float = None
