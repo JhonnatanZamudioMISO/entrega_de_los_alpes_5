@@ -1,28 +1,28 @@
-from aeroalpes.modulos.vuelos.dominio.eventos.reservas import ReservaCreada, ReservaCancelada, ReservaAprobada, ReservaPagada
+from aeroalpes.modulos.pedidos.dominio.eventos.ordenes import OrdenCreada, OrdenCancelada, OrdenAprobada, OrdenPagada
 from aeroalpes.seedwork.aplicacion.handlers import Handler
-from aeroalpes.modulos.vuelos.infraestructura.despachadores import Despachador
+from aeroalpes.modulos.pedidos.infraestructura.despachadores import Despachador
 
-class HandlerReservaIntegracion(Handler):
-
-    @staticmethod
-    def handle_reserva_creada(evento):
-        despachador = Despachador()
-        despachador.publicar_evento(evento, 'eventos-reserva')
+class HandlerOrdenIntegracion(Handler):
 
     @staticmethod
-    def handle_reserva_cancelada(evento):
+    def handle_orden_creada(evento):
         despachador = Despachador()
-        despachador.publicar_evento(evento, 'eventos-reserva')
+        despachador.publicar_evento(evento, 'eventos-orden')
 
     @staticmethod
-    def handle_reserva_aprobada(evento):
+    def handle_orden_cancelada(evento):
         despachador = Despachador()
-        despachador.publicar_evento(evento, 'eventos-reserva')
+        despachador.publicar_evento(evento, 'eventos-orden')
 
     @staticmethod
-    def handle_reserva_pagada(evento):
+    def handle_orden_aprobada(evento):
         despachador = Despachador()
-        despachador.publicar_evento(evento, 'eventos-reserva')
+        despachador.publicar_evento(evento, 'eventos-orden')
+
+    @staticmethod
+    def handle_orden_pagada(evento):
+        despachador = Despachador()
+        despachador.publicar_evento(evento, 'eventos-orden')
 
 
     

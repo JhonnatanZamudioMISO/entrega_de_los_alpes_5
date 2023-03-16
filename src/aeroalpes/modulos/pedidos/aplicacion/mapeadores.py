@@ -1,12 +1,12 @@
 from aeroalpes.seedwork.aplicacion.dto import Mapeador as AppMap
 from aeroalpes.seedwork.dominio.repositorios import Mapeador as RepMap
-from aeroalpes.modulos.vuelos.dominio.entidades import Reserva, Aeropuerto
-from aeroalpes.modulos.vuelos.dominio.objetos_valor import Itinerario, Odo, Segmento, Leg
-from .dto import ReservaDTO, ItinerarioDTO, OdoDTO, SegmentoDTO, LegDTO
+from aeroalpes.modulos.pedidos.dominio.entidades import Orden, Aeropuerto
+from aeroalpes.modulos.pedidos.dominio.objetos_valor import Itinerario, Odo, Segmento, Leg
+from .dto import OrdenDTO, ItinerarioDTO, OdoDTO, SegmentoDTO, LegDTO
 
 from datetime import datetime
 
-class MapeadorReservaDTOJson(AppMap):
+class MapeadorOrdenDTOJson(AppMap):
     def _procesar_itinerario(self, itinerario: dict) -> ItinerarioDTO:
         odos_dto: list[OdoDTO] = list()
         for odo in itinerario.get('odos', list()):
@@ -24,19 +24,19 @@ class MapeadorReservaDTOJson(AppMap):
 
         return ItinerarioDTO(odos_dto)
     
-    def externo_a_dto(self, externo: dict) -> ReservaDTO:
-        reserva_dto = ReservaDTO()
+    def externo_a_dto(self, externo: dict) -> OrdenDTO:
+        Orden_dto = OrdenDTO()
 
         itinerarios: list[ItinerarioDTO] = list()
         for itin in externo.get('itinerarios', list()):
-            reserva_dto.itinerarios.append(self._procesar_itinerario(itin))
+            Orden_dto.itinerarios.append(self._procesar_itinerario(itin))
 
-        return reserva_dto
+        return Orden_dto
 
-    def dto_a_externo(self, dto: ReservaDTO) -> dict:
+    def dto_a_externo(self, dto: OrdenDTO) -> dict:
         return dto.__dict__
 
-class MapeadorReserva(RepMap):
+class MapeadorOrden(RepMap):
     _FORMATO_FECHA = '%Y-%m-%dT%H:%M:%SZ'
 
     def _procesar_itinerario(self, itinerario_dto: ItinerarioDTO) -> Itinerario:
@@ -65,7 +65,7 @@ class MapeadorReserva(RepMap):
         return Itinerario(odos)
 
     def obtener_tipo(self) -> type:
-        return Reserva.__class__
+        return Orden.__class__
 
     def locacion_a_dict(self, locacion):
         if not locacion:
@@ -79,7 +79,7 @@ class MapeadorReserva(RepMap):
         )
         
 
-    def entidad_a_dto(self, entidad: Reserva) -> ReservaDTO:
+    def entidad_a_dto(self, entidad: Orden) -> OrdenDTO:
         
         fecha_creacion = entidad.fecha_creacion.strftime(self._FORMATO_FECHA)
         fecha_actualizacion = entidad.fecha_actualizacion.strftime(self._FORMATO_FECHA)
@@ -105,18 +105,18 @@ class MapeadorReserva(RepMap):
                 odos.append(OdoDTO(segmentos))
             itinerarios.append(ItinerarioDTO(odos))
         
-        return ReservaDTO(fecha_creacion, fecha_actualizacion, _id, itinerarios)
+        return OrdenDTO(fecha_creacion, fecha_actualizacion, _id, itinerarios)
 
-    def dto_a_entidad(self, dto: ReservaDTO) -> Reserva:
-        reserva = Reserva()
-        reserva.itinerarios = list()
+    def dto_a_entidad(self, dto: OrdenDTO) -> Orden:
+        Orden = Orden()
+        Orden.itinerarios = list()
 
         itinerarios_dto: list[ItinerarioDTO] = dto.itinerarios
 
         for itin in itinerarios_dto:
-            reserva.itinerarios.append(self._procesar_itinerario(itin))
+            Orden.itinerarios.append(self._procesar_itinerario(itin))
         
-        return reserva
+        return Orden
 
 
 
