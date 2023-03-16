@@ -1,13 +1,13 @@
 
 
-from cliente.modulos.vuelos.dominio.eventos.reservas import ReservaCreada
+from cliente.modulos.pedidos.dominio.eventos.ordenes import OrdenCreada
 from cliente.seedwork.aplicacion.handlers import Handler
 
-class HandlerReservaDominio(Handler):
+class HandlerOrdenDominio(Handler):
 
     @staticmethod
-    def handle_reserva_creada(evento):
-        print('================ RESERVA CREADA ===========')
+    def handle_orden_creada(evento):
+        print('================ ORDEN CREADA ===========')
         
 
     
