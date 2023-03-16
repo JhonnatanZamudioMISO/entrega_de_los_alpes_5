@@ -1,7 +1,7 @@
 from aeroalpes.seedwork.aplicacion.comandos import Comando, ComandoHandler
 
-class CancelarReserva(Comando):
+class CancelarOrden(Comando):
     ...
 
-class CancelarReservaHandler(ComandoHandler):
+class CancelarOrdenHandler(ComandoHandler):
     ...
