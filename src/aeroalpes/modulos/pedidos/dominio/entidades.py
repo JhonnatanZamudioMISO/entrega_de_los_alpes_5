@@ -1,6 +1,6 @@
-"""Entidades del dominio de vuelos
+"""Entidades del dominio de pedidos
 
-En este archivo usted encontrará las entidades del dominio de vuelos
+En este archivo usted encontrará las entidades del dominio de pedidos
 
 """
 
@@ -8,8 +8,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 import datetime
 
-import aeroalpes.modulos.vuelos.dominio.objetos_valor as ov
-from aeroalpes.modulos.vuelos.dominio.eventos.reservas import ReservaCreada, ReservaAprobada, ReservaCancelada, ReservaPagada
+import aeroalpes.modulos.pedidos.dominio.objetos_valor as ov
+from aeroalpes.modulos.pedidos.dominio.eventos.ordenes import OrdenCreada, OrdenAprobada, OrdenCancelada, OrdenPagada
 from aeroalpes.seedwork.dominio.entidades import Locacion, AgregacionRaiz, Entidad
 
 @dataclass
@@ -35,37 +35,37 @@ class Pasajero(Entidad):
     tipo: ov.TipoPasajero = field(default_factory=ov.TipoPasajero)
 
 @dataclass
-class Reserva(AgregacionRaiz):
+class Orden(AgregacionRaiz):
     id_cliente: uuid.UUID = field(hash=True, default=None)
-    estado: ov.EstadoReserva = field(default=ov.EstadoReserva.PENDIENTE)
+    estado: ov.EstadoOrden = field(default=ov.EstadoOrden.PENDIENTE)
     itinerarios: list[ov.Itinerario] = field(default_factory=list[ov.Itinerario])
 
-    def crear_reserva(self, reserva: Reserva):
-        self.id_cliente = reserva.id_cliente
-        self.estado = reserva.estado
-        self.itinerarios = reserva.itinerarios
+    def crear_Orden(self, Orden: Orden):
+        self.id_cliente = Orden.id_cliente
+        self.estado = Orden.estado
+        self.itinerarios = Orden.itinerarios
         self.fecha_creacion = datetime.datetime.now()
 
-        self.agregar_evento(ReservaCreada(id_reserva=self.id, id_cliente=self.id_cliente, estado=self.estado.name, fecha_creacion=self.fecha_creacion))
+        self.agregar_evento(OrdenCreada(id_Orden=self.id, id_cliente=self.id_cliente, estado=self.estado.name, fecha_creacion=self.fecha_creacion))
         # TODO Agregar evento de compensación
 
-    def aprobar_reserva(self):
-        self.estado = ov.EstadoReserva.APROBADA
+    def aprobar_Orden(self):
+        self.estado = ov.EstadoOrden.APROBADA
         self.fecha_actualizacion = datetime.datetime.now()
 
-        self.agregar_evento(ReservaAprobada(self.id, self.fecha_actualizacion))
+        self.agregar_evento(OrdenAprobada(self.id, self.fecha_actualizacion))
         # TODO Agregar evento de compensación
 
-    def cancelar_reserva(self):
-        self.estado = ov.EstadoReserva.CANCELADA
+    def cancelar_Orden(self):
+        self.estado = ov.EstadoOrden.CANCELADA
         self.fecha_actualizacion = datetime.datetime.now()
 
-        self.agregar_evento(ReservaCancelada(self.id, self.fecha_actualizacion))
+        self.agregar_evento(OrdenCancelada(self.id, self.fecha_actualizacion))
         # TODO Agregar evento de compensación
     
-    def pagar_reserva(self):
-        self.estado = ov.EstadoReserva.PAGADA
+    def pagar_Orden(self):
+        self.estado = ov.EstadoOrden.PAGADA
         self.fecha_actualizacion = datetime.datetime.now()
 
-        self.agregar_evento(ReservaPagada(self.id, self.fecha_actualizacion))
+        self.agregar_evento(OrdenPagada(self.id, self.fecha_actualizacion))
         # TODO Agregar evento de compensación

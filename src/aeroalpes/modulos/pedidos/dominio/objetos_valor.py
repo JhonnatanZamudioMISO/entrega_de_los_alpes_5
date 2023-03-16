@@ -1,9 +1,3 @@
-"""Objetos valor del dominio de vuelos
-
-En este archivo usted encontrará los objetos valor del dominio de vuelos
-
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -58,7 +52,7 @@ class Segmento(Ruta):
     def fecha_llegada(self) -> datetime:
         return self.legs[-1].fecha_llegada
 
-class TipoVuelo(Enum):
+class TipoPedido(Enum):
     IDA_Y_VUELTA = "Ida y vuelta"
     IDA = "Solo ida"
     OPEN_JAW = "Open Jaw"
@@ -78,11 +72,11 @@ class Itinerario(ObjetoValor):
 
     def tipo_vuelo(self):
         if self.es_ida_y_vuelta():
-            return TipoVuelo.IDA_Y_VUELTA
+            return TipoPedido.IDA_Y_VUELTA
         elif self.es_solo_ida:
-            return TipoVuelo.IDA
+            return TipoPedido.IDA
         else:
-            return TipoVuelo.OPEN_JAW
+            return TipoPedido.OPEN_JAW
 
     def ruta(self):
         if self.es_ida_y_vuelta():
@@ -124,7 +118,7 @@ class ParametroBusca(ObjetoValor):
     pasajeros: list[Pasajero] = field(default_factory=list)
 
 
-class EstadoReserva(str, Enum):
+class EstadoOrden(str, Enum):
     APROBADA = "Aprobada"
     PENDIENTE = "Pendiente"
     CANCELADA = "Cancelada"

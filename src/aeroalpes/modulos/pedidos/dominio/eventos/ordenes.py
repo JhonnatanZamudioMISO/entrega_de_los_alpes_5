@@ -3,13 +3,13 @@ from dataclasses import dataclass, field
 from aeroalpes.seedwork.dominio.eventos import (EventoDominio)
 from datetime import datetime
 
-class EventoReserva(EventoDominio):
+class EventoOrden(EventoDominio):
     ...
 
 
 @dataclass
-class ReservaCreada(EventoReserva):
-    id_reserva: uuid.UUID = None
+class OrdenCreada(EventoOrden):
+    id_orden: uuid.UUID = None
     id_cliente: uuid.UUID = None
     estado: str = None
     fecha_creacion: datetime = None
@@ -17,8 +17,8 @@ class ReservaCreada(EventoReserva):
     monto_vat: float = None
     
 @dataclass
-class CreacionReservaFallida(EventoReserva):
-    id_reserva: uuid.UUID = None
+class CreacionOrdenFallida(EventoOrden):
+    id_orden: uuid.UUID = None
     id_cliente: uuid.UUID = None
     estado: str = None
     fecha_creacion: datetime = None
@@ -26,23 +26,23 @@ class CreacionReservaFallida(EventoReserva):
     monto_vat: float = None
 
 @dataclass
-class ReservaCancelada(EventoReserva):
-    id_reserva: uuid.UUID = None
+class OrdenCancelada(EventoOrden):
+    id_orden: uuid.UUID = None
     fecha_actualizacion: datetime = None
 
 @dataclass
-class ReservaAprobada(EventoReserva):
-    id_reserva: uuid.UUID = None
+class OrdenAprobada(EventoOrden):
+    id_orden: uuid.UUID = None
     fecha_actualizacion: datetime = None
 
 @dataclass
-class ReservaPagada(EventoReserva):
-    id_reserva: uuid.UUID = None
+class OrdenPagada(EventoOrden):
+    id_orden: uuid.UUID = None
     fecha_actualizacion: datetime = None
 
 @dataclass
-class AprobacionReservaFallida(EventoReserva):
-    id_reserva: uuid.UUID = None
+class AprobacionOrdenFallida(EventoOrden):
+    id_orden: uuid.UUID = None
     fecha_actualizacion: datetime = None
 
 
